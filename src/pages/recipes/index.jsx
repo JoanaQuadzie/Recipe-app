@@ -1,26 +1,40 @@
-import { Card, CardContent, CardMedia, Container, Grid, TextField, Typography} from "@mui/material";
+import { Card, CardContent, CardMedia, Container, Grid, TextField, Typography } from "@mui/material";
+import RecipeItem from "../../components/recipe-item";
+import { useEffect, useState } from "react";
 
 export default function Recipes() {
-    return (
-        <Container sx={{ my: '2rem'}} maxWidth="sm">
-            <TextField 
-            fullWidth 
-            id="outlined-basic" 
-            label="Enter a keyword to search recipes and hit Enter" 
-            variant="outlined" />
+    const [recipes, setRecipes] = useState([]);
 
-            
-            <Grid sx={{ mt: '1rem'}} container spacing={3}>
-                <Grid item xs={4}>
-                    <Card>
-                        <CardMedia 
-                        sx={{height: 140}}
-                        image="https://images.unsplash.com/photo-1526318896980-cf78c088247c?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
-                    </Card>
-                    <CardContent>
-                        <Typography variant="h5">Ramen dish</Typography>
-                    </CardContent>    
-                </Grid>
+    const searchRecipes = () => {
+        //prepare url
+        const url = new URL('https://api.spoonacular.com/recipes/complexSearch');
+        url.searchParams.append('apiKey', '0d3b9c3b10f84ac8bedea32562ccd404')
+        // fetch recipes
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                // Update the recipes state
+                setRecipes(data.results);
+                // console.log(data)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    useEffect(searchRecipes, []);
+
+    return (
+        <Container sx={{ my: '2rem' }}>
+            <TextField
+                fullWidth
+                id="outlined-basic"
+                label="Enter a keyword to search recipes and hit Enter"
+                variant="outlined" />
+
+
+            <Grid sx={{ mt: '1rem' }} container spacing={3}>
+                {recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} />)}
             </Grid>
         </Container>
     )
