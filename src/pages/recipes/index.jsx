@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 
 export default function Recipes() {
     const [recipes, setRecipes] = useState([]);
+    const [searchItem,setSearchItem] = useState("");
 
     const searchRecipes = () => {
         //prepare url
         const url = new URL('https://api.spoonacular.com/recipes/complexSearch');
-        url.searchParams.append('apiKey', '0d3b9c3b10f84ac8bedea32562ccd404')
+        url.searchParams.append('apiKey', process.env.REACT_APP_SPOONACULAR_API_KEY);
+        url.searchParams.append('query', searchItem);//Add the query parameter
+        // url.searchParams.append('number', 25); use this method to remove 25 images
         // fetch recipes
         fetch(url)
             .then((response) => response.json())
@@ -30,7 +33,10 @@ export default function Recipes() {
                 fullWidth
                 id="outlined-basic"
                 label="Enter a keyword to search recipes and hit Enter"
-                variant="outlined" />
+                variant="outlined" 
+                value={searchItem}
+                onChange={(event) => setSearchItem(event.target.value)}
+                onKeyDown={(event) => event.key === 'Enter' && searchRecipes()}/>
 
 
             <Grid sx={{ mt: '1rem' }} container spacing={3}>
