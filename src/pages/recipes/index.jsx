@@ -30,7 +30,7 @@ export default function Recipes() {
             .finally(() => setLoading(false))
     }
 
-    // useEffect(searchRecipes, []);
+    useEffect(searchRecipes, []);
 
     return (
         <Container sx={{ my: '2rem' }}>
@@ -49,7 +49,7 @@ export default function Recipes() {
                 <Container sx={{display: 'flex', justifyContent: 'center'}}>
                     <img src={spinner} width="50%" />
                 </Container>
-            ): recipes.length > 0 ? recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} />) : (
+            ): recipes.length > 0 ? recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} id={recipe.id} />) : (
                     <Container sx={{display: 'flex', justifyContent: 'center'}}>
                         <img src={noRecipes} width="25%" />
                     </Container>
