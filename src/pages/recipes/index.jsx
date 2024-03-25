@@ -3,6 +3,7 @@ import RecipeItem from "../../components/recipe-item";
 import { useEffect, useState } from "react";
 import noRecipes from "../../assets/images/undraw_no_data_re_kwbl.svg";
 import spinner from "../../assets/images/bouncing-circles.svg";
+import Navbar from "../../components/navbar";
 
 export default function Recipes() {
     const [recipes, setRecipes] = useState([]);
@@ -34,6 +35,8 @@ export default function Recipes() {
     useEffect(searchRecipes, []);
 
     return (
+     <>
+       <Navbar />
         <Container sx={{ my: '2rem' }}>
             <TextField
                 fullWidth
@@ -56,8 +59,12 @@ export default function Recipes() {
                     </Container>
                 )} 
             </Grid>
+        
+
         </Container>
+    </>
     )
+
 
 }
 

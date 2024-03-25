@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import useSWR from "swr";
 import spinner from "../../assets/images/bouncing-circles.svg";
 import { Assignment, Folder } from "@mui/icons-material";
+import Navbar from "../../components/navbar";
 
 const getRecipe = (...args) => {
     //prepare url
@@ -21,6 +22,7 @@ export default function Recipe() {
 
     return (
         <>
+        <Navbar/>
             {isLoading? <img src={spinner} /> : (
                 <Container>
                     <h1>{recipe.title}</h1>
