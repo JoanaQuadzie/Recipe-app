@@ -14,6 +14,7 @@ const countries = [
 export default function AddRecipe() {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('New Recipe Added Successfully');
 
     const addRecipe = async (event) => {
         // Set loading to true
@@ -23,14 +24,16 @@ export default function AddRecipe() {
         // Get form data
         const formData = new FormData(event.target);
         // Post form data to the backend
-        const response = await fetch(`http://localhost:4000/recipes`, {
+        const response = await fetch(`${process.env.REACT_APP_RECIPE_API}/recipes`, {
             method: 'POST',
             body: formData,
-        })
-        console.log(response)
-        //
-        //
-        //
+        });
+        // Update message based on response status
+        if (response.status !==201) {
+            setMessage('Failed to add recipe');
+        }
+        // Open collapsible Alert
+        setOpen(true);
         // Set loading to false
         setLoading(false);
     }
@@ -92,8 +95,7 @@ export default function AddRecipe() {
                                     </IconButton>
                                 }
                                 sx={{ mb: 2 }}
-                            >
-                                New Recipe Added Successfully!
+                            >{message}
                             </Alert>
                         </Collapse>
 
